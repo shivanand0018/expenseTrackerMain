@@ -21,7 +21,11 @@ async function addUser(e) {
             userName.value = ""
             email.value = ""
             password.value = ""
+            if (document.getElementById('id')) {
+                form.removeChild(document.getElementById('id'))
+            }
             var p = document.createElement('p')
+            p.id='id'
             let text = `<h4 style="color:red">User successfully Registered....! Please Login<h4>`
             p.innerHTML = p.innerHTML + text;
             form.appendChild(p)
@@ -29,7 +33,12 @@ async function addUser(e) {
     }
     catch (err) {
         console.log(err);
+        if(document.getElementById('id'))
+        {
+            form.removeChild(document.getElementById('id'))
+        }
         var p = document.createElement('p')
+        p.id='id'
         let text = `<h3 style="color:red">Emailid Already Registered....!<h3>`
         p.innerHTML = p.innerHTML + text;
         form.appendChild(p)
