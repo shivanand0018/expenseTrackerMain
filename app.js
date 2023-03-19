@@ -12,8 +12,10 @@ app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 const sequelize = require('./util/database')
 const signUpRoutes = require('./routes/signUp');
+const loginRoutes=require('./routes/login')
 
 app.use('/signup', signUpRoutes)
+app.use('/login',loginRoutes)
 
 sequelize.sync().then(()=>{
     app.listen('3000')

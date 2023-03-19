@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker-SignUp</title>
+    <title>Expense Tracker-Login</title>
     <link href="/css/signUp.css" rel="stylesheet">
 </head>
 
@@ -16,27 +16,24 @@
                 <h3>Expense Tracker</h3>
             </div>
             <ul class="list">
-                <li class="item" id="item2"><a href="/login">SignIn</a></li>
+                <li class="item" id="item2"><a href="/signUp">SignUp</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <form id="form" class="form" method="POST" onsubmit="addUser(event)">
-            <h2>Sign Up</h2>
+        <form id="form" class="form" method="POST" onsubmit="checkUser(event)">
+            <h2>Sign In</h2>
             <div class="form-div">
-                <label>Name</label>
-                <input type="text" name="userName" id="userName" required>
                 <label>Email Id</label>
                 <input type="email" name="email" id="email" required>
                 <label>Password</label>
                 <input type="password" name="password" id="password" required>
                 <button type="submit">Submit</button>
-                <p>Have you already registered? <a href="/login" style="color:blue; cursor: pointer;">Login</a></p>
+                <p>Not registered yet? <a href="/signUp" style="color:blue; cursor: pointer;">SignUp</a></p>
             </div>
         </form>
     </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
-<script src="/js/signUp.js"></script>
 
 </html>
