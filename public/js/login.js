@@ -13,7 +13,9 @@ async function checkUser(e) {
         console.log(data);
         if (data.status == 200) {
             alert(data.data.data)
-            window.location.href = "/home"
+            window.location.href = "/home";
+            localStorage.setItem('token',data.data.token)
+            console.log(localStorage.getItem('token'));
         }
     }
     catch (err) {

@@ -15,7 +15,8 @@ async function addExpense(e) {
                 description: description.value,
                 amount: amount.value
             }
-            const res = await axios.post('http://localhost:3000/home/postExpense', obj)
+            const token=localStorage.getItem('token')
+            const res = await axios.post('http://localhost:3000/home/postExpense', obj,{headers:{"Authorization":token}})
             showData(res.data.data)
             category.value = '';
             description.value = '';
@@ -30,7 +31,8 @@ async function addExpense(e) {
 
 window.addEventListener('DOMContentLoaded', async () => {
     try {
-        const res = await axios.get('http://localhost:3000/home/getExpenses')
+        const token=localStorage.getItem('token')
+        const res = await axios.get('http://localhost:3000/home/getExpenses',{headers:{"Authorization":token}})
         for (let i = 0; i < res.data.data.length; i++) {
             showData(res.data.data[i]);
         }
@@ -55,7 +57,8 @@ function showData(data) {
 
 async function deleteExpense(id, amount) {
     try {
-        const res = await axios.delete(`http://localhost:3000/home/delete/${id}`)
+        const token=localStorage.getItem('token')
+        const res = await axios.delete(`http://localhost:3000/home/delete/${id}`,{headers:{"Authorization":token}})
         let tr = document.getElementById(id);
         expenseTable.removeChild(tr);
     }

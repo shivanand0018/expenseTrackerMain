@@ -6,11 +6,12 @@ exports.postExpense=async(req,res)=>{
         const category = req.body.category;
         const description = req.body.description;
         const amount = req.body.amount;
-        console.log(req);
+        console.log(req.user);
         const data=await expense.create({
             category: category,
             description: description,
-            amount: amount
+            amount: amount,
+            userId:req.user.id
         })
         res.json({ data: data })
     }
@@ -21,7 +22,7 @@ exports.postExpense=async(req,res)=>{
 
 exports.getExpenses = async (req, res) => {
     try {
-        const data = await expense.findAll();
+        const data = await expense.findAll({where:{userId:req.user.id}});
         res.json({ data: data })
     }
     catch (err) {
@@ -32,7 +33,7 @@ exports.getExpenses = async (req, res) => {
 exports.deleteExpense = async (req, res) => {
     try {
         const id = req.params.id
-        const resp = await expense.destroy({ where: { id: id } })
+        const resp = await expense.destroy({ where: { id: id , userId:req.user.id} })
         res.status(204).json({ resp });
     }
     catch (err) {
