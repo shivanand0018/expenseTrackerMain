@@ -12,11 +12,6 @@ header {
     align-items: center;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-}
-
 .list {
     display: flex;
     margin: 0;
@@ -36,6 +31,11 @@ body {
     left: 65rem;
 }
 
+body {
+    padding: 0;
+    margin: 0;
+}
+
 h3 {
     padding: 0 1.5rem;
     text-decoration: underline;
@@ -53,13 +53,13 @@ h3 {
 
 .form {
     background-color: #fff;
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 30px 20px;
+    
+    
+    padding: 10px 20px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-input {
+input,select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -70,7 +70,7 @@ input {
     resize: vertical
 }
 
-button {
+#submitbtn {
     cursor: pointer;
     background-color: lightcoral;
     color: white;
@@ -79,11 +79,22 @@ button {
     border-radius: 4px;
 }
 
-h2 {
-    text-decoration: underline;
+.table {
+    width: 100%;
+}
+
+th {
+    background-color: blanchedalmond;
+}
+
+tr {
     text-align: center;
 }
 
-button:hover {
+h2{
+    text-align: center;
+}
+
+#submitbtn:hover {
     background-color: brown;
 }

@@ -13,9 +13,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 const sequelize = require('./util/database')
 const signUpRoutes = require('./routes/signUp');
 const loginRoutes=require('./routes/login')
+const homeRoutes=require('./routes/home')
 
 app.use('/signup', signUpRoutes)
 app.use('/login',loginRoutes)
+app.use('/home',homeRoutes)
 
 sequelize.sync().then(()=>{
     app.listen('3000')
