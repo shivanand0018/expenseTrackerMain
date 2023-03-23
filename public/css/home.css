@@ -53,13 +53,14 @@ h3 {
 
 .form {
     background-color: #fff;
-    
-    
+
+
     padding: 10px 20px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-input,select {
+input,
+select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -91,10 +92,26 @@ tr {
     text-align: center;
 }
 
-h2{
+h2 {
     text-align: center;
 }
 
 #submitbtn:hover {
     background-color: brown;
+}
+
+#rzp-button1 {
+    color: red;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid red;
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+div>#rzp-button1 {
+    position: absolute;
+    right: 5%;
+    top: 12%;
 }
