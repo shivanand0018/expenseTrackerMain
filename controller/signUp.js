@@ -1,9 +1,10 @@
 const signUp = require('../models/signUp')
 const bcrypt = require('bcrypt')
+const sequelize=require('../util/database')
 
 exports.addUser = async (req, res) => {
     try {
-        console.log(req.body);
+        const t=await sequelize.transaction();
         const userName = req.body.name;
         const email = req.body.email;
         const password = req.body.password;
@@ -12,13 +13,15 @@ exports.addUser = async (req, res) => {
                 name: userName,
                 email: email,
                 password: hash
-            })
+            },{transaction:t})
+            await t.commit();
             res.json({ data: data })
         })
         
     }
     catch (err) {
         console.log(err);
-        res.status(409).json({ data: "Email already exists" })
+        await t.rollback();
+        res.status(500).json({message: false, data: "Email already exists" })
     }
 }
