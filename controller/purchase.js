@@ -1,15 +1,16 @@
 const Razorpay = require('razorpay')
 const Order = require('../models/orders')
+const loginController=require('../controller/login')
 
 exports.purchasePremium = async (req, res) => {
     try {
         const cookie = "SameSite=None;secure";
         res.setHeader("set-cookie", [cookie])
         var rzp = new Razorpay({
-            key_id: 'rzp_test_bOZpfH9EsNpVn5',
-            key_secret: '8Y1NyclBpFFY0OifV0DRzWXP'
+            key_id: process.env.RAZORPAY_KEY_ID,
+            key_secret: process.env.RAZORPAY_KEY_SECRET
         })
-        const amount = 2500;
+        const amount = 1000;
         rzp.orders.create({ amount, currency: "INR" }, (err, order) => {
             console.log(order);
             const data = req.user.createOrder({ orderid: order.id, status: 'PENDING' });
@@ -38,12 +39,13 @@ exports.updateTransaction = async (req, res) => {
             })
         }
         else {
-            console.log('hi');
             const updateOrder = order.update({ paymentId: payment_id, status: 'SUCCESSFUL' })
             const updateUser = req.user.update({ isPremiumUser: true })
+            console.log(req.user.id);
             Promise.all([updateOrder, updateUser]).then(() => {
                 return res.status(202).json({ success: true, message: 'Transaction Successful' })
             }).catch(err => {
+                console.log(err);
                 throw new Error(JSON.stringify(err))
             })
         }

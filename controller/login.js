@@ -10,7 +10,7 @@ exports.checkUser = async (req, res) => {
         if (data.length > 0) {
             bcrypt.compare(password, data[0].password, (err, result) => {
                 if (result===true) {
-                    res.status(200).json({ message: true, data: "Logged in successfully...",token:generateJsonToken(data[0].id) })
+                    res.status(200).json({ message: true, data: "Logged in successfully...",token:generateJsonToken(data[0].id,data[0].isPremiumUser) })
                 }
                 else {
                     res.status(400).json({ message: false, data: "Password Incorrect" })
@@ -26,7 +26,9 @@ exports.checkUser = async (req, res) => {
     }
 }
 
-function generateJsonToken(id)
+function generateJsonToken(id,PremiumUser)
 {
-    return jwt.sign({userid:id},'shivanand')
+    return jwt.sign({userid:id,isPremiumUser:PremiumUser},'shivanand')
 }
+
+

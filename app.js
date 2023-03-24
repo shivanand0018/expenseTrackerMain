@@ -5,6 +5,7 @@ const Expense=require('./models/expense')
 const User=require('./models/signUp')
 const jwt=require('jsonwebtoken')
 const Razorpay = require('razorpay'); 
+require('dotenv').config();
 
 const app=express();
 const bodyparser = require('body-parser')
@@ -24,6 +25,7 @@ const loginRoutes=require('./routes/login')
 const homeRoutes=require('./routes/home')
 const purchaseRoutes=require('./routes/purchase')
 const Order = require('./models/orders')
+const premiumRoutes=require('./routes/premiumFeautureRoutes')
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -34,6 +36,7 @@ app.use('/signup', signUpRoutes)
 app.use('/login',loginRoutes)
 app.use('/home',homeRoutes)
 app.use('/purchase',purchaseRoutes)
+app.use('/premium',premiumRoutes)
 
 sequelize.sync().then(()=>{
     app.listen('3000')
