@@ -1,4 +1,5 @@
-const expense=require('../models/expense')
+const expense=require('../models/expense');
+const User=require("../models/signUp")
 
 exports.postExpense=async(req,res)=>{
     try {
@@ -13,6 +14,9 @@ exports.postExpense=async(req,res)=>{
             amount: amount,
             userId:req.user.id
         })
+        console.log(data);
+        const totalExpenses=Number(req.user.totalExpense)+Number(amount)
+        await User.update({totalExpense: totalExpenses},{where:{id:req.user.id}});
         res.json({ data: data })
     }
     catch (err) {
@@ -35,6 +39,9 @@ exports.deleteExpense = async (req, res) => {
     try {
         const id = req.params.id
         const resp = await expense.destroy({ where: { id: id , userId:req.user.id} })
+        console.log(resp);
+        const totalExpenses=Number(req.user.totalExpense)-Number(resp.amount)
+        await User.update({totalExpense: totalExpenses},{where:{id:req.user.id}});
         res.status(204).json({ resp });
     }
     catch (err) {

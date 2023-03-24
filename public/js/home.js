@@ -129,7 +129,7 @@ async function getLeaderBoard() {
         let a=1
         for(let i=0;i<data.data.length;i++)
         {
-            let text=`<td>${a}</td><td>${data.data[i].name}</td><td>${data.data[i].totalExpenses}</td></tr>`
+            let text=`<td>${a}</td><td>${data.data[i].name}</td><td>${data.data[i].totalExpense}</td></tr>`
             a++;
             tb.innerHTML =tb.innerHTML+ text;
         }
