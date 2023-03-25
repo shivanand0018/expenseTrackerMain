@@ -8,4 +8,9 @@ router.get('/',(req, res, next) => {
 
 router.post('/forgotPassword',forgotPassRoutes.getPassword)
 
+router.get('/resetPassword/:id',forgotPassRoutes.resetPassword)
+
+router.post('/updatePassword/:id',forgotPassRoutes.updatePassword)
+
+
 module.exports=router

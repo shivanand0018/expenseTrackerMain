@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt')
 const sequelize=require('../util/database')
 
 exports.addUser = async (req, res) => {
+    const t=await sequelize.transaction();
     try {
-        const t=await sequelize.transaction();
         const userName = req.body.name;
         const email = req.body.email;
         const password = req.body.password;

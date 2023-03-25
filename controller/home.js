@@ -3,8 +3,8 @@ const User=require("../models/signUp");
 const sequelize = require('../util/database');
 
 exports.postExpense=async(req,res)=>{
+    const t=await sequelize.transaction();
     try {
-        const t=await sequelize.transaction();
         const category = req.body.category;
         const description = req.body.description;
         const amount = req.body.amount;
@@ -38,8 +38,8 @@ exports.getExpenses = async (req, res) => {
 }
 
 exports.deleteExpense = async (req, res) => {
+    const t=await sequelize.transaction();
     try {
-        const t=await sequelize.transaction();
         const id = req.params.id
         const resp = await expense.destroy({ where: { id: id , userId:req.user.id},transaction:t})
         const totalExpenses=Number(req.user.totalExpense)-Number(resp.amount)
