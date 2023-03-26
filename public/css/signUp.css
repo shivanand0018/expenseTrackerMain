@@ -41,13 +41,12 @@ h3 {
     text-decoration: underline;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-shadow: 0 0 10px white;
-    cursor: default
+    cursor: pointer;
+    color:black
 }
 
-.item a:hover,
-.item a:active,
-.item a:active {
-    color: blue;
+.item a:hover{
+    color: pink;
     cursor: pointer;
 }
 
@@ -74,7 +73,7 @@ button {
     cursor: pointer;
     background-color: lightcoral;
     color: white;
-    padding: 12px;
+    padding: 12px 226px;
     border: none;
     border-radius: 4px;
 }

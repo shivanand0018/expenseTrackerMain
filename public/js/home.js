@@ -41,6 +41,8 @@ window.addEventListener('DOMContentLoaded', async () => {
             let text = 'You are a premium User'
             btn.innerHTML = text;
             btn.disabled = true;
+            var btn1 = document.getElementById('downloadexpense')
+            btn1.disabled = false
         }
         for (let i = 0; i < res.data.data.length; i++) {
             showData(res.data.data[i]);
@@ -119,21 +121,39 @@ document.getElementById('rzp-button1').onclick = async function (e) {
 
 async function getLeaderBoard() {
     if (!document.getElementById('leaderboard')) {
-        const token=localStorage.getItem('token')
-        const data=await axios.get('http://localhost:3000/premium/showLeaderBoard', { headers: { "Authorization": token }} )
+        const token = localStorage.getItem('token')
+        const data = await axios.get('http://localhost:3000/premium/showLeaderBoard', { headers: { "Authorization": token } })
         console.log(data);
         var tb = document.createElement('table')
         tb.id = 'leaderboard'
         let text = `<div><h3 style="text-align: center";>Leader Board</h3></div><tr><th>S.No</th><th>Name</th><th>Expenses</th></tr><tr>`
         tb.innerHTML = text;
-        let a=1
-        for(let i=0;i<data.data.length;i++)
-        {
-            let text=`<td>${a}</td><td>${data.data[i].name}</td><td>${data.data[i].totalExpense}</td></tr>`
+        let a = 1
+        for (let i = 0; i < data.data.length; i++) {
+            let text = `<td>${a}</td><td>${data.data[i].name}</td><td>${data.data[i].totalExpense}</td></tr>`
             a++;
-            tb.innerHTML =tb.innerHTML+ text;
+            tb.innerHTML = tb.innerHTML + text;
         }
         let table = document.getElementById('table');
         table.appendChild(tb)
+    }
+}
+
+async function downloadFile() {
+    console.log('hi');
+    try {
+        const res = await axios.get('http://localhost:3000/home/download', { headers: { "Authorization": token } })
+        console.log(res);
+        if (res.status == 201) {
+            var a = document.createElement("a");
+            a.href = res.data.fileUrl;
+            a.download = 'myexpense.csv';
+            a.click();
+        } else {
+            throw new Error(response.data.message)
+        }
+    }
+    catch (err) {
+        console.log(err);
     }
 }

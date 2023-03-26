@@ -12,6 +12,10 @@ exports.purchasePremium = async (req, res) => {
         })
         const amount = 1000;
         rzp.orders.create({ amount, currency: "INR" }, (err, order) => {
+            if(err)
+            {
+                console.log(err);
+            }
             console.log(order);
             const data = req.user.createOrder({ orderid: order.id, status: 'PENDING' });
             return res.json({ order, key_id: rzp.key_id })

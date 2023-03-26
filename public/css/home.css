@@ -138,3 +138,15 @@ div>#board {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     background-color: slategray;
 }
+
+#downloadexpense{
+    cursor: pointer;
+    background-color: cadetblue;
+    color: black;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px; 
+    position: relative;
+    right: -85%;
+}
+
