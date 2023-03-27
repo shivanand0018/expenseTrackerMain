@@ -3,7 +3,8 @@ const expenseTable = document.getElementById('expenseTable');
 var category = document.getElementById('category')
 var description = document.getElementById('description')
 var amount = document.getElementById('amount')
-
+const itemsPerPage = document.getElementById("itemsPerPage");
+itemsPerPage.addEventListener('click',getExpense);
 
 async function addExpense(e) {
     try {
@@ -33,23 +34,82 @@ async function addExpense(e) {
 
 window.addEventListener('DOMContentLoaded', async () => {
     try {
+        let page=1
         const token = localStorage.getItem('token')
-        const res = await axios.get('http://localhost:3000/home/getExpenses', { headers: { "Authorization": token } })
+        const res = await axios.get(`http://localhost:3000/home/getExpenses?page=${page}&items=${itemsPerPage.value}`, { headers: { "Authorization": token } })
         console.log(res);
+        let btn12 = document.getElementById('board')
+        btn12.disabled = true;
         if (res.data.premiumUser === true) {
             var btn = document.getElementById('rzp-button1')
             let text = 'You are a premium User'
             btn.innerHTML = text;
             btn.disabled = true;
+            let btn12 = document.getElementById('board')
+            btn12.disabled = false;
         }
-        for (let i = 0; i < res.data.data.length; i++) {
-            showData(res.data.data[i]);
-        }
+        const pageData = res.data
+        pagination(pageData)
+        //  for (let i = 0; i < res.data.data.length; i++) {
+        //     showData(res.data.data[i]);
+        // }
     }
     catch (err) {
         console.log(err);
     }
 })
+
+async function getExpense(page){
+    try{
+        const token = localStorage.getItem('token')
+        let getReq =await axios.get(`http://localhost:3000/home/getExpenses?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
+        const pageData = getReq.data;
+        console.log(pageData)
+        expenseCount= pageData.length;
+        pagination(pageData);
+    }catch(err){
+        console.log("ERR in getExpense main.js_expense ",err)
+        throw new Error(err);
+    }
+}
+
+function pagination(obj){
+    const pagination=document.getElementById('pagination');
+    pagination.innerHTML="";
+    if(obj.hasPrevPage){
+        const btnPrev= document.createElement('button');
+        btnPrev.type= "button";
+        btnPrev.innerHTML= obj.prevPage;
+        btnPrev.addEventListener('click',()=>getExpense(obj.prevPage))
+        pagination.appendChild(btnPrev)
+    }
+    const btn= document.createElement('button');
+    btn.type= "button";
+    btn.innerHTML= `<h4>${obj.currentPage}</h4>`
+    console.log(obj);
+    expenseTable.innerHTML='';
+    for(let i=0;i<obj.data.length;i++){
+        showData(obj.data[i])
+    }
+    console.log(obj.data)
+    pagination.appendChild(btn)
+    if(obj.hasNextPage){
+        const btnNext= document.createElement('button');
+        btnNext.type= "button";
+        btnNext.innerHTML= obj.nextPage;
+        btnNext.addEventListener('click',()=>getExpense(obj.nextPage))
+        pagination.appendChild(btnNext) 
+    }
+    if(obj.lastPage!=obj.currentPage){
+        const lastbtn = document.createElement('button');
+        lastbtn.type = 'button';
+        lastbtn.innerHTML= '>>'
+        lastbtn.addEventListener('click',()=>getExpense(obj.lastPage))
+        pagination.appendChild(lastbtn)
+
+    }
+}
+
 
 function showData(data) {
     let text = `<tr id=${data.id}>
@@ -95,7 +155,9 @@ document.getElementById('rzp-button1').onclick = async function (e) {
                 let text = 'You are a premium User'
                 btn.innerHTML = text;
                 btn.disabled = true;
-                btn.style.cursor = 'none'
+                btn.style.cursor = 'none';
+                let btn12 = document.getElementById('board')
+                btn12.disabled = false;
             }
 
         }

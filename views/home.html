@@ -48,8 +48,14 @@
             </div>
         </form>
         <div>
-            <button onclick="downloadFile()" id="downloadexpense"><i class="fa fa-download" style="font-size:18px"></i> Download File</button>
+            <button onclick="downloadFile()" id="downloadexpense"><i class="fa fa-download" style="font-size:18px"></i> Download Report</button>
         </div>
+        <select style="float: right; width: 5%; padding: 0;margin-top: 0;" id ="itemsPerPage" class="itemsPerPage">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+        </select>
+        <label style="float: right;" for="itemsPerPage">Items Per Page </label>
         <table class="table">
             <thead>
                 <tr>
@@ -63,7 +69,11 @@
             <tbody id="expenseTable">
 
             </tbody>
+            <hr>
         </table>
+        <ul id="pagination" class="centered"></ul>
+        
+        
         <div id="table"></div>
     </main>
 </body>
