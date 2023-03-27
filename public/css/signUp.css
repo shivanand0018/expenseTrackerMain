@@ -48,6 +48,7 @@ h3 {
 .item a:hover{
     color: pink;
     cursor: pointer;
+    
 }
 
 .form {
@@ -56,6 +57,7 @@ h3 {
     margin: 50px auto;
     padding: 30px 20px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+
 }
 
 input {

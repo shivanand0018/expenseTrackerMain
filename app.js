@@ -11,10 +11,6 @@ require('dotenv').config();
 
 const app = express();
 const bodyparser = require('body-parser')
-const razorpayInstance = new Razorpay({
-    key_id: 'rzp_test_XjZ0WwA0d5qX7w',
-    key_secret: '4aBbzgRGkLdzRB00EGvjYMLy'
-});
 
 app.use(express.json())
 app.use(bodyparser.urlencoded({ extended: false }))
@@ -29,6 +25,7 @@ const purchaseRoutes = require('./routes/purchase')
 const Order = require('./models/orders')
 const premiumRoutes = require('./routes/premiumFeautureRoutes')
 const forgotPassRoutes = require('./routes/forgotPassword')
+const History=require('./models/reports')
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -36,6 +33,8 @@ User.hasMany(Order);
 Order.belongsTo(User);
 ForgotPass.belongsTo(User)
 User.hasMany(ForgotPass);
+History.belongsTo(User)
+User.hasMany(History);
 
 app.use('/signup', signUpRoutes)
 app.use('/login', loginRoutes)
@@ -43,6 +42,8 @@ app.use('/home', homeRoutes)
 app.use('/purchase', purchaseRoutes)
 app.use('/premium', premiumRoutes)
 app.use('/password', forgotPassRoutes)
+
+app.use('',async(req,res)=>res.redirect('login'))
 
 sequelize.sync().then(() => {
     app.listen('3000')

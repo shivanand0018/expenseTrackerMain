@@ -41,8 +41,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             let text = 'You are a premium User'
             btn.innerHTML = text;
             btn.disabled = true;
-            var btn1 = document.getElementById('downloadexpense')
-            btn1.disabled = false
         }
         for (let i = 0; i < res.data.data.length; i++) {
             showData(res.data.data[i]);
@@ -97,7 +95,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
                 let text = 'You are a premium User'
                 btn.innerHTML = text;
                 btn.disabled = true;
-
+                btn.style.cursor = 'none'
             }
 
         }
@@ -120,6 +118,10 @@ document.getElementById('rzp-button1').onclick = async function (e) {
 }
 
 async function getLeaderBoard() {
+    if (document.getElementById('leaderboard')) {
+        let table = document.getElementById('table');
+        table.removeChild(document.getElementById('leaderboard'))
+    }
     if (!document.getElementById('leaderboard')) {
         const token = localStorage.getItem('token')
         const data = await axios.get('http://localhost:3000/premium/showLeaderBoard', { headers: { "Authorization": token } })
@@ -141,19 +143,44 @@ async function getLeaderBoard() {
 
 async function downloadFile() {
     console.log('hi');
+    const token = localStorage.getItem('token')
     try {
         const res = await axios.get('http://localhost:3000/home/download', { headers: { "Authorization": token } })
         console.log(res);
-        if (res.status == 201) {
+        if (res.status == 200) {
+            displayDownloadHistory(res.data.downloaded)
             var a = document.createElement("a");
             a.href = res.data.fileUrl;
             a.download = 'myexpense.csv';
             a.click();
         } else {
-            throw new Error(response.data.message)
+            throw new Error(res.data.message)
         }
     }
     catch (err) {
         console.log(err);
     }
 }
+
+function displayDownloadHistory(data) {
+    if (document.getElementById('leaderboard')) {
+        let table = document.getElementById('table');
+        table.removeChild(document.getElementById('leaderboard'))
+    }
+    if (!document.getElementById('leaderboard')) {
+        var tb = document.createElement('table')
+        tb.id = 'leaderboard'
+        let text = `<div><h3 style="text-align: center";>Report Downloaded History</h3></div><tr><th>S.No</th><th>Url</th><th>Downloaded at</th></tr><tr>`
+        tb.innerHTML = text;
+        let a = 1
+        for (let i = 0; i < data.length; i++) {
+            let text = `<td>${a}</td><td><a href=${data[i].url}>link</td><td>${data[i].createdAt}</td></tr>`
+            a++;
+            tb.innerHTML = tb.innerHTML + text;
+        }
+        let table = document.getElementById('table');
+        table.appendChild(tb)
+    }
+}
+
+
