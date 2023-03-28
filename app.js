@@ -6,15 +6,23 @@ const User = require('./models/signUp')
 const ForgotPass = require('./models/forgotPassword')
 const jwt = require('jsonwebtoken')
 const Razorpay = require('razorpay');
+const morgan=require('morgan')
+const fs=require('fs')
 
 require('dotenv').config();
 
 const app = express();
 const bodyparser = require('body-parser')
 
+const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'})
+
 app.use(express.json())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(cors())
+
+app.use(morgan('combined',{stream:accessLogStream}))
+
+
 
 app.use(express.static(path.join(__dirname, 'public')))
 const sequelize = require('./util/database')
@@ -25,7 +33,7 @@ const purchaseRoutes = require('./routes/purchase')
 const Order = require('./models/orders')
 const premiumRoutes = require('./routes/premiumFeautureRoutes')
 const forgotPassRoutes = require('./routes/forgotPassword')
-const History=require('./models/reports')
+const History = require('./models/reports')
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -43,8 +51,8 @@ app.use('/purchase', purchaseRoutes)
 app.use('/premium', premiumRoutes)
 app.use('/password', forgotPassRoutes)
 
-app.use('',async(req,res)=>res.redirect('login'))
+app.use('', async (req, res) => res.redirect('login'))
 
 sequelize.sync().then(() => {
-    app.listen('3000')
+    app.listen(process.env.PORT ||3000)
 })
