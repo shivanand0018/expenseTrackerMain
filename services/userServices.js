@@ -3,7 +3,6 @@ exports.getExpenses = (req,where) =>{
 }
 
 exports.createDownloadHistory = (req,data) =>{
-    console.log(req);
     return req.user.createDownload({url: data})
 }
 

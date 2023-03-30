@@ -10,7 +10,6 @@ exports.postExpense = async (req, res) => {
         const category = req.body.category;
         const description = req.body.description;
         const amount = req.body.amount;
-        console.log(req.user);
         const data = await expense.create({
             category: category,
             description: description,
@@ -20,7 +19,7 @@ exports.postExpense = async (req, res) => {
         const totalExpenses = Number(req.user.totalExpense) + Number(amount)
         await User.update({ totalExpense: totalExpenses }, { where: { id: req.user.id }, transaction: t });
         await t.commit();
-        res.json({ data: data })
+        res.json({ data: data, totalExpense: totalExpenses })
     }
     catch (err) {
         console.log(err);
@@ -30,17 +29,14 @@ exports.postExpense = async (req, res) => {
 
 exports.getExpenses = async (req, res) => {
     try {
-        console.log(req.user.id);
         const page = +req.query.page || 1;
         const itemsPerPage = Number(req.query.items);
         let expenseCount = await expense.count({ where: { userId: req.user.id } })
-        console.log(expenseCount);
         const data1 = await expense.findAll({
             offset: (page - 1) * itemsPerPage,
             limit: itemsPerPage
             , include: [{ model: User, where: { id: req.user.id } }]
         });
-        console.log(data1);
         return res.status(200).json({
             data: data1,
             premiumUser: req.user.isPremiumUser,
@@ -50,7 +46,9 @@ exports.getExpenses = async (req, res) => {
             hasPrevPage: page > 1,
             prevPage: page - 1,
             itemsPerPage: itemsPerPage,
-            lastPage: Math.ceil(expenseCount / itemsPerPage)
+            lastPage: Math.ceil(expenseCount / itemsPerPage),
+            totalExpense: req.user.totalExpense,
+            name:req.user.name
         })
     }
     catch (err) {
@@ -62,11 +60,12 @@ exports.deleteExpense = async (req, res) => {
     const t = await sequelize.transaction();
     try {
         const id = req.params.id
+        const expenses = await expense.findOne({ where: { id: id } })
         const resp = await expense.destroy({ where: { id: id, userId: req.user.id }, transaction: t })
-        const totalExpenses = Number(req.user.totalExpense) - Number(resp.amount)
+        const totalExpenses = Number(req.user.totalExpense) - Number(expenses.amount)
         await User.update({ totalExpense: totalExpenses }, { where: { id: req.user.id }, transaction: t });
         await t.commit();
-        res.status(204).json({ resp });
+        return res.status(200).json({ totalExpense: totalExpenses });
     }
     catch (err) {
         console.log(err);
@@ -90,5 +89,59 @@ exports.downloadExpense = async (req, res) => {
         res.status(500).json({ fileUrl: "", success: false, err: err })
     }
 }
+
+exports.getExpense = async (req, res) => {
+    const t = await sequelize.transaction();
+    try {
+        const id = req.params.id
+        const resp = await expense.findByPk(id)
+        const totalExpenses = Number(req.user.totalExpense) - Number(resp.amount)
+        await User.update({ totalExpense: totalExpenses }, { where: { id: req.user.id }, transaction: t });
+
+        res.json({ data: resp })
+        await t.commit();
+    }
+    catch (err) {
+        await t.rollback();
+        console.log(err);
+    }
+}
+
+exports.updateExpense = async (req, res) => {
+    const t = await sequelize.transaction();
+    try {
+        const id = req.params.id;
+        const date = req.body.date;
+        const category = req.body.category;
+        const description = req.body.description;
+        const amount = req.body.amount;
+        const resp1 = await expense.upsert({
+            id: id,
+            date: date,
+            category: category,
+            description: description,
+            amount: amount
+        }, { transaction: t })
+        const totalExpenses = Number(req.user.totalExpense) + Number(amount)
+        await User.update({ totalExpense: totalExpenses }, { where: { id: req.user.id }, transaction: t });
+        await t.commit();
+        res.json({
+            data: {
+                id: id,
+                date: date,
+                category: category,
+                description: description,
+                amount: amount
+            },
+            totalExpense: totalExpenses
+        })
+
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+
 
 

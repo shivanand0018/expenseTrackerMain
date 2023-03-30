@@ -2,7 +2,7 @@ header {
     height: 3.5rem;
     width: 100%;
     background-color: sienna;
-    font-family: 'Times New Roman', Times, serif
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .nav {
@@ -54,7 +54,7 @@ h3 {
 .form {
     background-color: #fff;
     max-width: 500px;
-    margin: 50px auto;
+    margin: 30px auto;
     padding: 30px 20px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
 

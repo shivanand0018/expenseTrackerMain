@@ -14,6 +14,10 @@ router.get('/getExpenses',userAuth.authenticate,controller.getExpenses)
 
 router.get('/download',userAuth.authenticate,controller.downloadExpense)
 
+router.get('/getExpense/:id',userAuth.authenticate,controller.getExpense)
+
+router.put('/updateExpense/:id',userAuth.authenticate,controller.updateExpense)
+
 router.delete('/delete/:id',userAuth.authenticate,controller.deleteExpense)
 
 module.exports=router
