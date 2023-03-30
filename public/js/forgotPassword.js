@@ -21,7 +21,6 @@ async function forgotPassword(e)
             p.innerHTML = p.innerHTML + text;
             form.appendChild(p)
         }
-        
     }
     catch(err)
     {

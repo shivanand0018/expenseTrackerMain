@@ -53,7 +53,7 @@ body {
 
 .form {
     background-color: #fff;
-    padding: 10px 20px;
+    padding: 10px 15px;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -64,7 +64,7 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    margin-top: 6px;
+    margin-top: 4px;
     margin-bottom: 16px;
     resize: vertical
 }
@@ -77,6 +77,19 @@ select {
     border: none;
     border-radius: 4px;
 }
+
+#update {
+    cursor: pointer;
+    background-color: lightcoral;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    position: absolute;
+    top: 61.5%;
+    left: 1.5%;
+}
+
 
 .table {
     width: 100%;
@@ -97,6 +110,10 @@ h2 {
 #submitbtn:hover {
     background-color: brown;
 }
+#update:hover{
+    background-color: brown;
+    
+}
 
 #rzp-button1 {
     color: red;
@@ -109,9 +126,8 @@ h2 {
 }
 
 div>#rzp-button1 {
-    position: absolute;
-    right: 5%;
-    top: 12%;
+    margin-top: 5%;
+    margin-left: 1%;
 }
 
 #board {
@@ -125,10 +141,11 @@ div>#rzp-button1 {
 }
 
 div>#board {
-    position: absolute;
-    left: 2%;
-    top: 12%;
+    float: right;
+    margin-right: 2%;
+    margin-top: 5%;
 }
+    
 
 #leaderboard {
     margin-left: auto;
@@ -148,5 +165,19 @@ div>#board {
     border-radius: 4px; 
     margin-top: 2%;
     margin-left: 1%;
+}
+
+#name{
+    color: ivory;
+    font-family: cursive;
+    text-decoration: underline;
+    cursor: default;
+}
+
+#p
+{
+    margin-left: 30%;
+    color: red;
+    font-size: 18px;
 }
 

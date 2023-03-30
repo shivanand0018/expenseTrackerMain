@@ -10,7 +10,6 @@ exports.addUser = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
         const resp = await signUp.findOne({ where: { email: email } })
-        console.log(res);
         if (resp==null) {
             bcrypt.hash(password, 10, async (err, hash) => {
                 if (err) {

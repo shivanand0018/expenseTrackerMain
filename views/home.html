@@ -11,25 +11,32 @@
 </head>
 
 <body>
-    <header>
+    <header style="position: fixed;">
         <nav class="nav">
             <div>
                 <h3 id="logo">Expense Tracker </h3>
             </div>
+            <div id="div"></div>
             <ul class="list">
-                <li class="item" id="item2" ><a href="login"> <i class="fa fa-sign-out" style="font-size:16px"></i>SignOut</a></li>
+                <li class="item" id="item2">
+                    <a  onclick="logout()"><i class="fa fa-sign-out"
+                            style="font-size:16px"></i>SignOut</a>
+                </li>
             </ul>
         </nav>
 
     </header>
+    <div>
+        <button id="board" onclick="getLeaderBoard()">Show LeaderBoard</button>
+    </div>
+    
+    <div>
+        <button id="rzp-button1">Buy Premium</button>
+    </div>
     <main>
-        <div>
-            <button id="board" onclick="getLeaderBoard()">Show LeaderBoard</button>
-        </div>
-        <div>
-            <button id="rzp-button1">Buy Premium</button>
-        </div>
+
         <form id="form" class="form" method="POST" onsubmit="addExpense(event)">
+            <div id="p1"></div>
             <h2>Add Expenses</h2>
             <div class="form-div">
                 <label>Amount</label>
@@ -47,10 +54,14 @@
                 <button id="submitbtn" type="submit">Submit</button>
             </div>
         </form>
+        <div id="but"></div>
+        <h3 id="total" style="float: right;font-family: 'Courier New', Courier, monospace;"></h3>
         <div>
-            <button onclick="downloadFile()" id="downloadexpense"><i class="fa fa-download" style="font-size:18px"></i> Download Report</button>
+            <button onclick="downloadFile()" id="downloadexpense"><i class="fa fa-download" style="font-size:18px"></i>
+                Download Report</button>
         </div>
-        <select style="float: right; width: 5%; padding: 0;margin-top: 0;" id ="itemsPerPage" class="itemsPerPage">
+
+        <select style="float: right; width: 5%; padding: 0;margin-top: 0;" id="itemsPerPage" class="itemsPerPage">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -71,9 +82,9 @@
             </tbody>
             <hr>
         </table>
-        <ul id="pagination" class="centered"></ul>
-        
-        
+        <ul id="pagination" class="centered" style="margin-left: 40%;"></ul>
+
+
         <div id="table"></div>
     </main>
 </body>
