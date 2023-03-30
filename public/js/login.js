@@ -8,14 +8,11 @@ async function checkUser(e) {
             email: email.value,
             password: password.value
         }
-        console.log(obj);
         let data = await axios.post('http://localhost:3000/login/checkUser', obj)
-        console.log(data);
         if (data.status == 200) {
             alert(data.data.data)
             window.location.href = "/home";
-            localStorage.setItem('token',data.data.token)
-            console.log(localStorage.getItem('token'));
+            localStorage.setItem('token', data.data.token)
         }
     }
     catch (err) {

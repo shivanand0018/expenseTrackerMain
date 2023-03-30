@@ -139,7 +139,6 @@ exports.updatePassword = async (req, res) => {
             }, { where: { id: userId } })
             console.log(data[0]);
             if (data[0] === 1) {
-                console.log('hi');
                 res.send('<html><body>Password Updated Successfully</body></html>')
                 res.end()
             }
