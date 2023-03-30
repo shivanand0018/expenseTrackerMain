@@ -18,7 +18,7 @@ async function addUser(e) {
                     email: email.value,
                     password: password.value
                 }
-                const response = await axios.post('http://localhost:3000/signup/addUser', obj)
+                const response = await axios.post('http://54.174.163.159:3000/signup/addUser', obj)
                 userName.value = ""
                 email.value = ""
                 password.value = ""

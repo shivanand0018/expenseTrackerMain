@@ -38,7 +38,7 @@ exports.getPassword = async (req, res) => {
                 sender,
                 to: receivers,
                 subject: 'Forgot Password',
-                htmlContent: `<p>Expense Tracker -Please click on the link sent, to reset your password.</p><a href="http://localhost:3000/password/resetPassword/${id}">Reset Password</a>`
+                htmlContent: `<p>Expense Tracker -Please click on the link sent, to reset your password.</p><a href="http://54.174.163.159:3000/password/resetPassword/${id}">Reset Password</a>`
             })
             await t.commit()
             res.status(200).json({ data: data })
@@ -98,7 +98,7 @@ exports.resetPassword = async (req, res) => {
                     let obj={
                         password:password.value
                     }
-                    const data=await axios.post('http://localhost:3000/password/updatePassword/${forgotId}',obj)
+                    const data=await axios.post('http://54.174.163.159:3000/password/updatePassword/${forgotId}',obj)
                     console.log(data)
                     password.disabled=true
                     var p = document.createElement('p')

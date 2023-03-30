@@ -95,10 +95,7 @@ exports.getExpense = async (req, res) => {
     try {
         const id = req.params.id
         const resp = await expense.findByPk(id)
-        const totalExpenses = Number(req.user.totalExpense) - Number(resp.amount)
-        await User.update({ totalExpense: totalExpenses }, { where: { id: req.user.id }, transaction: t });
-
-        res.json({ data: resp })
+        res.json({ data: resp,totalExpenses:req.user.totalExpense })
         await t.commit();
     }
     catch (err) {
@@ -122,7 +119,8 @@ exports.updateExpense = async (req, res) => {
             description: description,
             amount: amount
         }, { transaction: t })
-        const totalExpenses = Number(req.user.totalExpense) + Number(amount)
+        console.log(req.body);
+        const totalExpenses = Number(req.body.total) + Number(amount)
         await User.update({ totalExpense: totalExpenses }, { where: { id: req.user.id }, transaction: t });
         await t.commit();
         res.json({
