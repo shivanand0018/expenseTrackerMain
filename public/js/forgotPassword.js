@@ -7,7 +7,7 @@ async function forgotPassword(e)
         let obj={
             email:email.value
         }
-        const data=await axios.post('http://54.174.163.159:3000/password/forgotPassword',obj)
+        const data=await axios.post('http://18.207.35.90:3000/password/forgotPassword',obj)
         console.log(data);
         email.value=""
         if(data.status==200)

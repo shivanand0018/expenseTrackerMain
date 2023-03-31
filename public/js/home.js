@@ -18,7 +18,7 @@ async function addExpense(e) {
                 description: description.value,
                 amount: amount.value
             }
-            const res = await axios.post('http://54.174.163.159:3000/home/postExpense', obj, { headers: { "Authorization": token } })
+            const res = await axios.post('http://18.207.35.90:3000/home/postExpense', obj, { headers: { "Authorization": token } })
             let total = document.getElementById('total')
             total.innerHTML = 'Total Expenses=' + res.data.totalExpense
             showData(res.data.data)
@@ -35,7 +35,7 @@ async function addExpense(e) {
 window.addEventListener('DOMContentLoaded', async () => {
     try {
         let page = 1
-        const res = await axios.get(`http://54.174.163.159:3000/home/getExpenses?page=${page}&items=${itemsPerPage.value}`, { headers: { "Authorization": token } })
+        const res = await axios.get(`http://18.207.35.90:3000/home/getExpenses?page=${page}&items=${itemsPerPage.value}`, { headers: { "Authorization": token } })
         console.log(res);
         let btn2=document.createElement('h4')
         btn2.innerHTML='Welcome '+(res.data.name).toUpperCase();
@@ -49,6 +49,8 @@ window.addEventListener('DOMContentLoaded', async () => {
         p.innerHTML='Only Premium Users can see Leaderboard and download Reports'
         p.id='p'
         p1.appendChild(p)
+        let btn13=document.getElementById('downloadexpense')
+        btn13.disabled=true;
         if (res.data.premiumUser === true) {
             var btn = document.getElementById('rzp-button1')
             let text = 'You are a premium User'
@@ -56,6 +58,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             btn.disabled = true;
             let btn12 = document.getElementById('board')
             btn12.disabled = false;
+            btn13.disabled=false;
             p1.removeChild(p)
         }
         let total = document.getElementById('total')
@@ -70,7 +73,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 async function getExpense(page) {
     try {
-        let getReq = await axios.get(`http://54.174.163.159:3000/home/getExpenses?page=${page}&items=${itemsPerPage.value}`, { headers: { 'Authorization': token } })
+        let getReq = await axios.get(`http://18.207.35.90:3000/home/getExpenses?page=${page}&items=${itemsPerPage.value}`, { headers: { 'Authorization': token } })
         const pageData = getReq.data;
         let total = document.getElementById('total')
         total.innerHTML = 'Total Expenses=' + getReq.data.totalExpense
@@ -131,7 +134,7 @@ function showData(data) {
 
 async function deleteExpense(id) {
     try {
-        const res = await axios.delete(`http://54.174.163.159:3000/home/delete/${id}`, { headers: { "Authorization": token } })
+        const res = await axios.delete(`http://18.207.35.90:3000/home/delete/${id}`, { headers: { "Authorization": token } })
         let total = document.getElementById('total')
         total.innerHTML = 'Total Expenses=' + res.data.totalExpense
         let tr = document.getElementById(id);
@@ -144,12 +147,12 @@ async function deleteExpense(id) {
 
 document.getElementById('rzp-button1').onclick = async function (e) {
     try {
-        const response = await axios.get('http://54.174.163.159:3000/purchase/premiumMembership', { headers: { "Authorization": token } })
+        const response = await axios.get('http://18.207.35.90:3000/purchase/premiumMembership', { headers: { "Authorization": token } })
         var options = {
             "key": response.data.key_id,
             "order_id": response.data.order.id,
             "handler": async function (response) {
-                const res = await axios.post('http://54.174.163.159:3000/purchase/updateTransaction', {
+                const res = await axios.post('http://18.207.35.90:3000/purchase/updateTransaction', {
                     order_id: options.order_id,
                     payment_id: response.razorpay_payment_id
                 }, { headers: { 'Authorization': token } })
@@ -168,7 +171,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
         e.preventDefault();
         rzp1.on('payment.failed', async function () {
             console.log(response)
-            const resp = await axios.post("http://54.174.163.159:3000/purchase/updateTransaction", {
+            const resp = await axios.post("http://18.207.35.90:3000/purchase/updateTransaction", {
                 "order_id": response.data.order.id,
                 "payment_id": null
             }, { headers: { "Authorization": token } })
@@ -186,7 +189,7 @@ async function getLeaderBoard() {
         table.removeChild(document.getElementById('leaderboard'))
     }
     if (!document.getElementById('leaderboard')) {
-        const data = await axios.get('http://54.174.163.159:3000/premium/showLeaderBoard', { headers: { "Authorization": token } })
+        const data = await axios.get('http://18.207.35.90:3000/premium/showLeaderBoard', { headers: { "Authorization": token } })
         var tb = document.createElement('table')
         tb.id = 'leaderboard'
         let table = document.getElementById('table');
@@ -204,7 +207,7 @@ async function getLeaderBoard() {
 
 async function downloadFile() {
     try {
-        const res = await axios.get('http://54.174.163.159:3000/home/download', { headers: { "Authorization": token } })
+        const res = await axios.get('http://18.207.35.90:3000/home/download', { headers: { "Authorization": token } })
         if (res.status == 200) {
             displayDownloadHistory(res.data.downloaded)
             var a = document.createElement("a");
@@ -246,7 +249,7 @@ function displayDownloadHistory(data) {
 
 async function editExpense(id) {
     try {
-        const resp = await axios.get(`http://54.174.163.159:3000/home/getExpense/${id}`, { headers: { "Authorization": token } })
+        const resp = await axios.get(`http://18.207.35.90:3000/home/getExpense/${id}`, { headers: { "Authorization": token } })
         category.value = resp.data.data.category;
         description.value = resp.data.data.description;
         amount.value = resp.data.data.amount;
@@ -268,7 +271,7 @@ async function editExpense(id) {
                 amount: amount.value,
                 total:totalexp
             }
-            const resp1 = await axios.put(`http://54.174.163.159:3000/home/updateExpense/${id}`, obj, { headers: { "Authorization": token } })
+            const resp1 = await axios.put(`http://18.207.35.90:3000/home/updateExpense/${id}`, obj, { headers: { "Authorization": token } })
             btn1.removeChild(btn)
             let total = document.getElementById('total')
             total.innerHTML = 'Total Expenses=' + resp1.data.totalExpense
