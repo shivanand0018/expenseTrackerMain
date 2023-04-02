@@ -12,7 +12,7 @@ require('dotenv').config();
 
 const app = express();
 const bodyparser = require('body-parser')
-const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'})
+
 
 app.use(express.json())
 app.use(bodyparser.urlencoded({ extended: false }))
