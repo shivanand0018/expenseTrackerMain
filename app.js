@@ -17,7 +17,7 @@ const bodyparser = require('body-parser')
 app.use(express.json())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(cors())
-app.use(morgan('combined',{stream:accessLogStream}))
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 const sequelize = require('./util/database')
